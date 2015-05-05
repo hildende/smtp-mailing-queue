@@ -31,8 +31,7 @@ Coming soon:
 * Storing mailing data in database instead of files.
 * Using plugin for SMTP mails without using mailing queue.
 
-Feel free to suggest features or sent feedback in the [support section](https://wordpress.org/support/plugin/smtp-mailing-queue)
-or send me an [email](mailto:dennis@dennishildenbrand.com).
+Feel free to suggest features or send feedback in the [support section](https://wordpress.org/support/plugin/smtp-mailing-queue), via [email](mailto:dennis@dennishildenbrand.com) or by creating a pull request on [github](https://github.com/hildende/smtp-mailing-queue).
 
 == Installation ==
 1. Upload the files to the `/wp-content/plugins/smtp-mailing-queue/` directory
