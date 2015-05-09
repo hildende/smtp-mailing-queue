@@ -120,6 +120,10 @@ Sure, just [head over here](https://www.paypal.com/cgi-bin/webscr?cmd=_donations
 
 == Changelog ==
 
+= 1.0.2 =
+
+* Bugfix: PHP warning for empty headers in list tool
+
 = 1.0.1 =
 
 * Bugfix: timeout at slow SMTP servers
