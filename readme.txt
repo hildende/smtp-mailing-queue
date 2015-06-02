@@ -120,6 +120,12 @@ Sure, just [head over here](https://www.paypal.com/cgi-bin/webscr?cmd=_donations
 
 == Changelog ==
 
+= 1.0.3 =
+
+* Feature: Added warning on install if PHP version <5.4
+
+* Bugfix: Use of WordPress URL instead of host name (Thanks to [mgoncharenko](https://github.com/mgoncharenko) for this fix)
+
 = 1.0.2 =
 
 * Bugfix: PHP warning for empty headers in list tool
