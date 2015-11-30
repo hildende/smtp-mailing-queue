@@ -1,5 +1,4 @@
 <?php
-ini_set('display_errors', 1);
 
 class SMTPMailingQueue {
 
@@ -305,7 +304,7 @@ class SMTPMailingQueue {
 		// Set mailer to SMTP
 		$phpmailer->isSMTP();
 
-		$phpmailer->SMTPDebug = 1;
+//		$phpmailer->SMTPDebug = 1;
 
 		// Set sender info
 		$phpmailer->From = $options['from_email'];
