@@ -23,8 +23,9 @@ class SMTPMailingQueue {
 	 */
 	protected function init() {
 		// Actions
+		add_action('phpmailer_init', [$this, 'initMailer']);
+
 		if(isset($_GET['smqProcessQueue'])) {
-			add_action('phpmailer_init', [$this, 'initMailer']);
 			add_action('init', function() {
 				$this->processQueue();
 			});
