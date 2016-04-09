@@ -6,16 +6,17 @@ Description: SMTP Mailing Queue
 Author: Dennis Hildenbrand
 Version: 1.0.6
 Author URI: http://dennishildenbrand.com
+Text Domain: smtp-mailing-queue
 */
 
 // checking for php version
 if(is_admin() && version_compare(PHP_VERSION, '5.4', '<')) {
 	function smq_min_reqs() {
 		echo '<div class="error">
-			<h3>SMTP Mailing Queue requires at least PHP 5.4 The version you are using is <b>' . PHP_VERSION . '</b></h3>
-			<h3><a href="http://php.net/eol.php" target="_blank">PHP 5.3 was discontinued by the PHP development team on August 14, 2014!</a></h3>
-			<p>For security reasons we <b>warmly suggest</b> that you contact your hosting provider and ask to update your account to the latest stable PHP version, but at least PHP 5.4.</p>
-			<p>If they refuse for whatever reason we suggest to <b>change provider as soon as possible.</b></p>
+			<h3>' . printf(__('SMTP Mailing Queue requires at least PHP 5.4 The version you are using is %.', 'smtp-mailing-queue'), '<b>' . PHP_VERSION . '</b>') . '</h3>
+			<h3><a href="http://php.net/eol.php" target="_blank">' . __('PHP 5.3 was discontinued by the PHP development team on August 14, 2014!', 'smtp-mailing-queue') . '</a></h3>
+			<p>' . sprintf(__('For security reasons we %s warmly suggest %s that you contact your hosting provider and ask to update your account to the latest stable PHP version, but at least PHP 5.4.', 'smtp-mailing-queue'), '<b>', '</b>') . '</p>
+			<p>' . sprintf(__('If they refuse for whatever reason we suggest to %s change provider as soon as possible. %s', 'smtp-mailing-queue'), '<b>', '</b>') . '</p>
 			</div>';
 		$plugins = get_option('active_plugins');
 		$out = array();
@@ -50,5 +51,3 @@ if (!function_exists('wp_mail') && !isset($_GET['smqProcessQueue'])) {
 }
 
 add_action('plugins_loaded', [$smtpMailingQueueUpdate, 'update']);
-
-//delete_option('smq_version');
