@@ -13,7 +13,7 @@ Text Domain: smtp-mailing-queue
 if(is_admin() && version_compare(PHP_VERSION, '5.4', '<')) {
 	function smq_min_reqs() {
 		echo '<div class="error">
-			<h3>' . printf(__('SMTP Mailing Queue requires at least PHP 5.4 The version you are using is %.', 'smtp-mailing-queue'), '<b>' . PHP_VERSION . '</b>') . '</h3>
+			<h3>' . sprintf(__('SMTP Mailing Queue requires at least PHP 5.4 The version you are using is %s.', 'smtp-mailing-queue'), '<i>' . PHP_VERSION . '</i>') . '</h3>
 			<h3><a href="http://php.net/eol.php" target="_blank">' . __('PHP 5.3 was discontinued by the PHP development team on August 14, 2014!', 'smtp-mailing-queue') . '</a></h3>
 			<p>' . sprintf(__('For security reasons we %s warmly suggest %s that you contact your hosting provider and ask to update your account to the latest stable PHP version, but at least PHP 5.4.', 'smtp-mailing-queue'), '<b>', '</b>') . '</p>
 			<p>' . sprintf(__('If they refuse for whatever reason we suggest to %s change provider as soon as possible. %s', 'smtp-mailing-queue'), '<b>', '</b>') . '</p>
@@ -28,26 +28,28 @@ if(is_admin() && version_compare(PHP_VERSION, '5.4', '<')) {
 	}
 	add_action('admin_head', 'smq_min_reqs');
 	return;
-}
+} else {
 
-require_once('classes/SMTPMailingQueue.php');
-require_once('classes/SMTPMailingQueueUpdate.php');
-require_once('classes/SMTPMailingQueueOptions.php');
-require_once('classes/SMTPMailingQueueAdvancedOptions.php');
-require_once('classes/SMTPMailingQueueTools.php');
+	require_once('classes/SMTPMailingQueue.php');
+	require_once('classes/SMTPMailingQueueUpdate.php');
+	require_once('classes/SMTPMailingQueueOptions.php');
+	require_once('classes/SMTPMailingQueueAdvancedOptions.php');
+	require_once('classes/SMTPMailingQueueTools.php');
 
-$smtpMailingQueue = new SMTPMailingQueue(__FILE__);
-$smtpMailingQueueUpdate = new SMTPMailingQueueUpdate(__FILE__);
-new SMTPMailingQueueOptions();
-new SMTPMailingQueueAdvancedOptions();
-new SMTPMailingQueueTools();
+	$smtpMailingQueue = new SMTPMailingQueue(__FILE__);
+	$smtpMailingQueueUpdate = new SMTPMailingQueueUpdate(__FILE__);
+	new SMTPMailingQueueOptions();
+	new SMTPMailingQueueAdvancedOptions();
+	new SMTPMailingQueueTools();
 
-// overwriting wp_mail() to store mailing data instead of sending immediately
-if (!function_exists('wp_mail') && !isset($_GET['smqProcessQueue'])) {
-	function wp_mail($to, $subject, $message, $headers = '', $attachments = array()) {
-		global $smtpMailingQueue;
-		return $smtpMailingQueue->wp_mail($to, $subject, $message, $headers, $attachments);
+	// overwriting wp_mail() to store mailing data instead of sending immediately
+	if (!function_exists('wp_mail') && !isset($_GET['smqProcessQueue'])) {
+		function wp_mail($to, $subject, $message, $headers = '', $attachments = array())
+		{
+			global $smtpMailingQueue;
+			return $smtpMailingQueue->wp_mail($to, $subject, $message, $headers, $attachments);
+		}
 	}
-}
 
-add_action('plugins_loaded', [$smtpMailingQueueUpdate, 'update']);
+	add_action('plugins_loaded', array($smtpMailingQueueUpdate, 'update'));
+}
