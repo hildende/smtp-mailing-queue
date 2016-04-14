@@ -140,9 +140,35 @@ class SMTPMailingQueue {
 	 * @return string
 	 */
 	public function getCronLink() {
-		$key = get_option('smtp_mailing_queue_advanced')['process_key'];
 		$wpUrl = get_bloginfo("wpurl");
+        if (function_exists('idn_to_ascii')) {
+            $parts = parse_url($wpUrl);
+            $host = $parts['host'];
+            if (preg_match('/[\x80-\xFF]/', $host)) {
+                $puny = idn_to_ascii($host);
+                if ($puny !== false) {
+                    $parts['host'] = $puny;
+                    $wpUrl = $this->composeUrl($parts);
+                }
+            }
+        }
+        $key = get_option('smtp_mailing_queue_advanced')['process_key'];
 		return $wpUrl . '?smqProcessQueue&key=' . $key;
+	}
+
+    /**
+     * Build wordpress blog url from components acquired via parse_url
+     *
+     * @param $parsed_url
+     *
+     * @return string
+     */
+    function composeUrl($parsed_url) {
+        $scheme   = isset($parsed_url['scheme']) ? $parsed_url['scheme'] . '://' : '';
+        $host     = isset($parsed_url['host']) ? $parsed_url['host'] : '';
+        $port     = isset($parsed_url['port']) ? ':' . $parsed_url['port'] : '';
+        $path     = isset($parsed_url['path']) ? $parsed_url['path'] : '';
+        return "$scheme$host$port$path";
 	}
 
 	/**
